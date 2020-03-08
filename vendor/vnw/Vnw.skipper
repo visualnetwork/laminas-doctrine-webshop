@@ -1,0 +1,192 @@
+<?xml version="1.0"?>
+<skipper version="3.2.22.1624" mvc="Zend Framework" orm="Doctrine2" name="Vnw" uuid="0de12837-8d44-4e99-856e-9b5a0ea94420">
+  <module name="\User" local-name="User" namespace="\vnw\Entity\User" local-namespace="\vnw\Entity\User" export-format="Doctrine2Php" export-path=".." uuid="080a1f98-a590-4524-952e-b405c61f32f2">
+    <entity name="\vnw\Entity\User\AbstractUser" local-name="AbstractUser" namespace="\vnw\Entity\User" uuid="57a129ab-1ba5-462e-93a6-f58e6d94aa3e">
+      <field name="Admin" type="smallint" uuid="877e4ce8-85ab-4890-8eb7-12349e82d4a9"/>
+      <field name="Name" type="text" size="100" uuid="8e6710e2-c11c-4690-b3bd-bb9535a8d0a1"/>
+      <field name="Phone" type="text" size="50" uuid="1f56339b-5e1b-41c7-a77a-00cf71dc867d"/>
+      <field name="Email" type="text" size="50" uuid="da9a3608-8a3d-4a9e-ae5a-dc35387e1da7"/>
+      <field name="Password" type="text" size="100" uuid="2d50d38c-4dba-47f3-aac7-af632f533aae"/>
+      <field name="LanguageId" type="bigint" required="true" uuid="3e533279-3923-420c-8e26-61ac84d04509"/>
+      <field name="LastLogin" type="datetime" uuid="8d22e560-e26a-46d2-89b8-5683dbc0d6dc"/>
+      <field name="UsersTypeId" type="bigint" required="true" uuid="f2c0947e-ab31-447e-8e2a-87b196d7b1c7"/>
+      <inheritance-parent discriminator-field="Admin" type="SINGLE_TABLE" discriminator-value-base="0" uuid="86057b98-a0c9-4d4f-92c0-2be17c9a4ca2"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="3cc293ec-4883-48ab-baf7-8148a1ef3ce0"/>
+      <orm-attributes>
+        <attribute name="table">User</attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\vnw\Entity\User\AbstractUser" to="\vnw\Entity\User\UsersType" caption="UsersType AbstractUser" inverse-alias="UsersType" many-owner="true" many-inverse="false" parent-required="true" uuid="987948c9-9fab-485b-b095-8e39c3d2c085">
+      <association-field from="UsersTypeId" to="Id" uuid="1ee352a6-b04e-4a74-878b-b509e4fb8de2"/>
+    </association>
+    <association from="\vnw\Entity\User\AbstractUser" to="\vnw\Entity\Internationalization\Languages" caption="Languages AbstractUser" inverse-alias="Language" many-owner="true" many-inverse="false" parent-required="true" uuid="c4b67621-d26d-49df-97ef-04e25b040b50">
+      <association-field from="LanguageId" to="Id" uuid="658767c6-6783-40d4-b84c-65b0f2d937c1"/>
+    </association>
+    <entity name="\vnw\Entity\User\AdminUser" local-name="AdminUser" namespace="\vnw\Entity\User" uuid="8f4b31db-8872-4a24-9489-c5f1ce2b55f7">
+      <field name="Picture" type="text" size="100" uuid="8600cfa0-bae3-4a67-b68a-025a21200830"/>
+      <field name="Staff" type="smallint" uuid="f8b8070d-b1ef-4d28-be10-04afc3f6e349"/>
+      <inheritance-child derived-from="\vnw\Entity\User\AbstractUser" discriminator-value="1" caption="AbstractUser" uuid="284df8e0-7256-4e39-afc3-2fe154056757"/>
+    </entity>
+    <entity name="\vnw\Entity\User\CustomerUser" local-name="CustomerUser" namespace="\vnw\Entity\User" uuid="7d5b4bef-e297-4620-bffc-c3c3b9c5a156">
+      <field name="Signed" type="smallint" uuid="dcf77b47-6d9b-4e06-b354-248118373685"/>
+      <field name="Description" type="text" uuid="910cf41a-65ca-42d9-97d7-538e373424ca"/>
+      <inheritance-child derived-from="\vnw\Entity\User\AbstractUser" discriminator-value="2" caption="AbstractUser" uuid="8deed966-84aa-4532-aa31-b6da019e0ddb"/>
+    </entity>
+    <entity name="\vnw\Entity\User\UsersType" local-name="UsersType" namespace="\vnw\Entity\User" uuid="73ebc6a3-834f-4a03-9512-b5b12dc19fa2">
+      <field name="Admin" type="smallint" uuid="74dddca5-efa7-4d37-8b90-41987e92d70f"/>
+      <field name="Sn" type="bigint" uuid="6ef005a6-6388-4978-88a2-953e3856e7a2"/>
+      <field name="Name" type="text" size="100" uuid="a556549e-8db3-4663-bb8e-a4664f18d330"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="23060409-ddbe-40ed-ac5d-4fb779a186e1"/>
+    </entity>
+    <orm-attributes>
+      <attribute name="filename-format">subdirectories-by-namespace</attribute>
+    </orm-attributes>
+  </module>
+  <module name="\AbstractObject" local-name="AbstractObject" namespace="\vnw\Entity\AbstractObject" local-namespace="vnw\Entity\AbstractObject" export-format="Doctrine2Php" export-path=".." uuid="ac323572-311e-46d6-82d2-0fee9a228314">
+    <entity name="\vnw\Entity\AbstractObject\AbstractObject" local-name="AbstractObject" namespace="\vnw\Entity\AbstractObject" uuid="ab030530-cbe7-4e97-bdfd-e7ade93fee2f">
+      <field name="Id" type="bigint" required="true" unique="true" primary="true" auto-increment="true" uuid="c5a4a7fa-e4a5-4c19-81bc-515a086f69a0"/>
+      <field name="Active" description="Akt&#xED;v vagy nem akt&#xED;v" type="smallint" uuid="79da2313-a4db-4503-8bf3-816af4d845f3"/>
+      <field name="LastModified" description="Utols&#xF3; m&#xF3;dos&#xED;t&#xE1;s" type="datetime" uuid="2c8d741f-3e0d-4a65-b5b9-28fdd92b176e"/>
+      <field name="Creation" description="L&#xE9;trehoz&#xE1;s d&#xE1;tuma" type="datetime" uuid="961c086f-a443-464f-abaa-3e35509a8b5d"/>
+      <field name="Deleted" description="Soft Delete" type="smallint" uuid="e3da963b-e7a1-485e-9220-fcc7ffd8efe7"/>
+      <field name="Version" description="Verzi&#xF3;" type="bigint" uuid="167e0369-1eb8-4815-a3b4-1ea0e1615baa">
+        <orm-attributes>
+          <attribute name="version">true</attribute>
+        </orm-attributes>
+      </field>
+      <field name="isDeletable" description="V&#xE9;glegesen t&#xF6;r&#xF6;lhet&#x151; " type="smallint" uuid="6154ddcd-195a-40ac-bc12-9f416be74ecb"/>
+      <field name="CreatorId" type="bigint" required="true" uuid="b47f008c-5358-4e28-bf33-b140d1be8469"/>
+      <index name="Active" uuid="2da0d7ef-fc70-42a7-a353-ac540962d34b">
+        <index-field name="Active" uuid="7693b5f9-b0bd-4396-97b4-f28a694b0602"/>
+      </index>
+      <index name="Creation" uuid="1e7aa9c2-d21a-4f14-a19a-a3ca2f6ecfda">
+        <index-field name="Creation" uuid="f791d82b-26be-429d-81d4-886fccf72f8a"/>
+      </index>
+      <inheritance-parent type="MAPPED_SUPERCLASS" uuid="6b814c30-0da0-409e-919f-5d0c8c2da2b8"/>
+      <orm-attributes>
+        <attribute name="lifecycle-callbacks">
+          <attribute name="lifecycle-callback">
+            <attribute name="type">preUpdate</attribute>
+            <attribute name="method">onUpdate</attribute>
+          </attribute>
+          <attribute name="lifecycle-callback">
+            <attribute name="type">prePersist</attribute>
+            <attribute name="method">onPersist</attribute>
+          </attribute>
+        </attribute>
+      </orm-attributes>
+    </entity>
+    <association from="\vnw\Entity\AbstractObject\AbstractObject" to="\vnw\Entity\User\AbstractUser" caption="Creator" inverse-alias="Creator" many-owner="true" many-inverse="false" parent-required="true" uuid="59143b29-42a8-434f-a659-0808a38edaf4">
+      <association-field from="CreatorId" to="Id" uuid="90a27520-8831-4544-9920-26db1b72d901"/>
+    </association>
+    <orm-attributes>
+      <attribute name="filename-format">subdirectories-by-namespace</attribute>
+    </orm-attributes>
+  </module>
+  <module name="\Log" local-name="Log" namespace="\vnw\Entity\Log" local-namespace="vnw\Entity\Log" export-format="Doctrine2Php" export-path=".." uuid="42d20562-4043-49a1-a621-5b4bc794fd1b">
+    <entity name="\vnw\Entity\Log\Log" local-name="Log" namespace="\vnw\Entity\Log" uuid="62220279-df19-4292-a90c-b162ecc9c3ce">
+      <field name="Id" type="bigint" required="true" unique="true" primary="true" auto-increment="true" uuid="122845fe-c73c-46fc-882a-2abf9cc298dc"/>
+      <field name="UserName" type="string" uuid="92b28ade-4035-4de6-90d8-9f981378ae1e"/>
+      <field name="TableName" type="string" uuid="a9b7c2e2-c7e4-482a-86ab-0099a1fc8777"/>
+      <field name="Pk" type="bigint" uuid="0d3f9fa6-6e85-49b4-be16-31c73ca9d780"/>
+      <field name="ColumnName" type="string" uuid="dc63e33e-71a4-4541-b063-3dfeba6fbf83"/>
+      <field name="OldValue" type="string" uuid="5ec88b47-a985-44ac-b0c2-a2efbb0f0298"/>
+      <field name="NewValue" type="string" uuid="2773d918-3a3a-41a6-a043-c42d16b80669"/>
+      <field name="Creation" type="datetime" uuid="17315b61-4c15-430c-ace4-38e8bcb0ba3d"/>
+    </entity>
+    <orm-attributes>
+      <attribute name="filename-format">subdirectories-by-namespace</attribute>
+    </orm-attributes>
+  </module>
+  <module name="\Internationalization" local-name="Internationalization" namespace="\vnw\Entity\Internationalization" local-namespace="\vnw\Entity\Internationalization" export-format="Doctrine2Php" export-path=".." uuid="4cfe67dd-51dd-493f-8a7c-276c9e949726">
+    <entity name="\vnw\Entity\Internationalization\Languages" local-name="Languages" namespace="\vnw\Entity\Internationalization" uuid="17efb671-6cd8-4ba5-913d-40e6ea5067c0">
+      <field name="Name" type="text" size="50" uuid="ce577534-d98a-4218-b35f-752d5ff7339e"/>
+      <field name="ShortCode" type="text" size="2" uuid="b80b66a6-36ee-40e4-b915-01492879fc23"/>
+      <field name="LongCode" type="text" size="3" uuid="580258cb-00dd-4004-9166-6e63900d820f"/>
+      <field name="WebCode" description="pl en-us, hu-hu" type="text" size="10" uuid="1cdb281e-97ed-459f-943d-25afe00904fe"/>
+      <field name="Def" type="smallint" uuid="46ac5890-b345-4718-bb5d-9c014c874f78"/>
+      <field name="Sn" type="integer" uuid="b9b72bde-19f7-43d8-a62e-46cfce3123a7"/>
+      <field name="DateFormatShort" type="text" size="50" uuid="952f628f-4fe6-4258-98bc-991aa05d21ce"/>
+      <field name="DateFormatLong" type="text" size="50" uuid="e5ea95b8-1664-4f54-ae73-10180018b5a2"/>
+      <field name="Picture" description="z&#xE1;szl&#xF3;" type="text" size="250" uuid="340b075b-8a5f-4965-b9b1-46c4444ef352"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="f68d5275-06b7-4020-8b13-c43ef605a4c8"/>
+    </entity>
+    <entity name="\vnw\Entity\Internationalization\Countries" local-name="Countries" namespace="\vnw\Entity\Internationalization" uuid="50eaa707-fa5a-46f2-b39b-3b0a5cc4ee79">
+      <field name="Name" type="text" size="50" uuid="7a422255-932b-434e-8fce-57f21206156d"/>
+      <field name="IsoCodeShort" description="pl HU" type="text" size="10" uuid="257ac4cd-1abd-4a3e-a3be-212107f9227d"/>
+      <field name="IsoCodeLong" description="pl HUN" type="text" size="10" uuid="38e343cf-e1d3-40c0-b025-f594eb10e157"/>
+      <field name="CountryPhoneCode" description="pl +36" type="integer" uuid="d1cd29a3-05ff-424f-a27b-507ed7a126a5"/>
+      <field name="EuCountry" description="Eu-s igen vagy nem" type="integer" uuid="aae2086d-c6ee-43c1-8e44-40e6f878e877"/>
+      <field name="ZipFormat" description="pl NNNN vagy LNN 1 bet&#x171; 2 sz&#xE1;m" type="text" size="10" uuid="3c81066e-9d14-4a04-9069-dc8779370acc"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="704790eb-7c67-4f41-883a-5909cd010a91"/>
+    </entity>
+    <entity name="\vnw\Entity\Internationalization\Taxes" local-name="Taxes" namespace="\vnw\Entity\Internationalization" uuid="f3c90824-ec88-4e44-ad99-91673bb0d27e">
+      <field name="Name" type="text" size="50" uuid="786fe1b0-2521-4ba3-a2ce-5072360d6fdd"/>
+      <field name="Rate" description="pl 27 27% eset&#xE9;n" type="float" uuid="4a97e128-2e2c-4276-a505-1f946f00accb"/>
+      <field name="CountryId" type="integer" uuid="022961b9-f91b-4d0a-9065-440129fb2060"/>
+      <field name="Sn" type="integer" uuid="599953f1-cf0b-4a9d-85d3-8db493ec433b"/>
+      <field name="Def" description="Alap&#xE9;rtelmezett" type="smallint" uuid="9b34a706-ce02-4c28-b033-e7656a0e87aa"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="3cef2fdd-c558-4135-a03d-8a8cc0a437af"/>
+    </entity>
+    <entity name="\vnw\Entity\Internationalization\Currencies" local-name="Currencies" namespace="\vnw\Entity\Internationalization" uuid="ba2b613f-5406-4e2b-8151-9e9af0793ade">
+      <field name="Name" description="pl. Forint" type="text" size="50" uuid="1604460e-80a3-4035-9390-a76593afceba"/>
+      <field name="ExchangeRate" description="v&#xE1;lt&#xE1;si &#xE1;rfolyam" type="float" uuid="58ad8409-578e-4beb-b780-ebb126755d71"/>
+      <field name="SymbolLeft" type="text" size="10" uuid="ba7581dc-8361-4000-895b-487cdc40c9bf"/>
+      <field name="SymbolRight" type="text" size="10" uuid="832c012c-41a0-47dc-b38a-36486fa1c580"/>
+      <field name="DecimalPlaces" description="tizedesjegyek sz&#xE1;ma" type="integer" uuid="5213e532-8456-4726-9d02-f3e88fda3e41"/>
+      <field name="ShortCode" description="pl HUF" type="text" size="10" uuid="a653102e-ce07-4969-afd7-2d9011653779"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="8c984ed8-591d-4cb9-b2ab-09a5412ae63d"/>
+    </entity>
+    <entity name="\vnw\Entity\Internationalization\Translations" local-name="Translations" namespace="\vnw\Entity\Internationalization" uuid="34509ec0-ed13-4b02-872b-b7cb8102f2b4">
+      <field name="Name" type="text" size="50" uuid="3a0ddb1e-194b-47b9-bddf-cd41990d80f3"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="20e2fc9f-9d19-4c03-826e-183b27799e4c"/>
+    </entity>
+    <orm-attributes>
+      <attribute name="filename-format">subdirectories-by-namespace</attribute>
+    </orm-attributes>
+  </module>
+  <module name="\System" local-name="System" namespace="\vnw\Entity\System" local-namespace="vnw\Entity\System" export-format="Doctrine2Php" export-path=".." uuid="c2def55f-9973-4acd-bed9-aa44e90124b0">
+    <entity name="\vnw\Entity\System\Webshops" local-name="Webshops" namespace="\vnw\Entity\System" uuid="bdb86e1d-a406-4199-a0fe-7e5bdd397bec">
+      <field name="Def" description="Alap&#xE9;rtelmezett" type="integer" uuid="6422ad63-22f2-44f5-8de6-def4a4d776da"/>
+      <field name="Name" type="text" size="100" uuid="6d666f2a-effc-49f1-b778-38dc4770b070"/>
+      <field name="ShopProperties" description="JSON k&#xF3;dol&#xE1;ssal, minden webshopnak k&#xFC;l&#xF6;n sor" type="text" uuid="147181e7-c353-4155-8c6d-1ddb3367c77b"/>
+      <inheritance-child derived-from="\vnw\Entity\AbstractObject\AbstractObject" caption="AbstractObject" uuid="fe501e12-588a-4532-b92b-c4d5245ff815"/>
+    </entity>
+    <orm-attributes>
+      <attribute name="filename-format">subdirectories-by-namespace</attribute>
+    </orm-attributes>
+  </module>
+  <visual-data>
+    <association uuid="59143b29-42a8-434f-a659-0808a38edaf4" color="#969696"/>
+    <association uuid="987948c9-9fab-485b-b095-8e39c3d2c085" color="#969696"/>
+    <association uuid="c4b67621-d26d-49df-97ef-04e25b040b50" color="#969696"/>
+    <entity uuid="17efb671-6cd8-4ba5-913d-40e6ea5067c0" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="18" position-y="50" size-x="0" size-x2="132" size-y="0" size-y2="256"/>
+    <entity uuid="34509ec0-ed13-4b02-872b-b7cb8102f2b4" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="282" position-y="350" size-x="0" size-x2="118" size-y="0" size-y2="144"/>
+    <entity uuid="50eaa707-fa5a-46f2-b39b-3b0a5cc4ee79" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="166" position-y="50" size-x="0" size-x2="118" size-y="0" size-y2="144"/>
+    <entity uuid="57a129ab-1ba5-462e-93a6-f58e6d94aa3e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="5" position-y="3" size-x="0" size-x2="118" size-y="0" size-y2="242"/>
+    <entity uuid="62220279-df19-4292-a90c-b162ecc9c3ce" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="20" position-y="50" size-x="0" size-x2="109" size-y="0" size-y2="129"/>
+    <entity uuid="73ebc6a3-834f-4a03-9512-b5b12dc19fa2" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="189" position-y="6" size-x="0" size-x2="118" size-y="0" size-y2="172"/>
+    <entity uuid="7d5b4bef-e297-4620-bffc-c3c3b9c5a156" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="320" size-x="0" size-x2="107" size-y="0" size-y2="158"/>
+    <entity uuid="8f4b31db-8872-4a24-9489-c5f1ce2b55f7" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="189" position-y="204" size-x="0" size-x2="107" size-y="0" size-y2="158"/>
+    <entity uuid="ab030530-cbe7-4e97-bdfd-e7ade93fee2f" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="17" position-y="21" size-x="0" size-x2="118" size-y="0" size-y2="129"/>
+    <entity uuid="ba2b613f-5406-4e2b-8151-9e9af0793ade" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="17" position-y="356" size-x="0" size-x2="118" size-y="0" size-y2="144"/>
+    <entity uuid="bdb86e1d-a406-4199-a0fe-7e5bdd397bec" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="-300" position-y="42" size-x="0" size-x2="118" size-y="0" size-y2="158"/>
+    <entity uuid="f3c90824-ec88-4e44-ad99-91673bb0d27e" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="150" position-y="350" size-x="0" size-x2="118" size-y="0" size-y2="144"/>
+    <inheritance-child uuid="20e2fc9f-9d19-4c03-826e-183b27799e4c" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <inheritance-child uuid="23060409-ddbe-40ed-ac5d-4fb779a186e1" caption1-position-x="0" caption1-position-y="0" center-position-x="-1" center-position-y="24" color="#969696"/>
+    <inheritance-child uuid="284df8e0-7256-4e39-afc3-2fe154056757" color="#969696"/>
+    <inheritance-child uuid="3cc293ec-4883-48ab-baf7-8148a1ef3ce0" caption1-position-x="27" caption1-position-y="-33" center-position-x="0" center-position-y="0" color="#969696" split="1"/>
+    <inheritance-child uuid="3cef2fdd-c558-4135-a03d-8a8cc0a437af" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <inheritance-child uuid="704790eb-7c67-4f41-883a-5909cd010a91" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <inheritance-child uuid="8c984ed8-591d-4cb9-b2ab-09a5412ae63d" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <inheritance-child uuid="8deed966-84aa-4532-aa31-b6da019e0ddb" color="#969696"/>
+    <inheritance-child uuid="f68d5275-06b7-4020-8b13-c43ef605a4c8" caption1-position-x="0" caption1-position-y="0" center-position-x="0" center-position-y="0" color="#969696"/>
+    <inheritance-child uuid="fe501e12-588a-4532-b92b-c4d5245ff815" color="#969696"/>
+    <module uuid="080a1f98-a590-4524-952e-b405c61f32f2" bg-color="#FDEBEF" position-x="61" position-y="-28" size-x="11" size-x2="327" size-y="22" size-y2="478"/>
+    <module uuid="42d20562-4043-49a1-a621-5b4bc794fd1b" bg-color="#FFE762" position-x="300" position-y="-300" size-x="0" size-x2="150" size-y="0" size-y2="200"/>
+    <module uuid="4cfe67dd-51dd-493f-8a7c-276c9e949726" bg-color="#FF9CA5" position-x="400" position-y="-50" size-x="4" size-x2="450" size-y="0" size-y2="590"/>
+    <module uuid="ac323572-311e-46d6-82d2-0fee9a228314" bg-color="#EAE4F1" position-x="50" position-y="-300" size-x="0" size-x2="200" size-y="0" size-y2="200"/>
+    <module uuid="c2def55f-9973-4acd-bed9-aa44e90124b0" bg-color="#FDEBEF" position-x="850" position-y="-300" size-x="320" size-x2="0" size-y="0" size-y2="223"/>
+    <project uuid="0de12837-8d44-4e99-856e-9b5a0ea94420" size-x="0" size-x2="1427" size-y="317" size-y2="590"/>
+  </visual-data>
+</skipper>
